@@ -1,0 +1,33 @@
+name: A25 conformance
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify bounded delivery
+        run: test -f a25-delivery.txt && grep -Fx 'Pilot House A25 governed delivery' a25-delivery.txt
+
+  approve:
+    needs: check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Approve the exact passing head
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.pulls.createReview({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+              commit_id: context.payload.pull_request.head.sha,
+              event: 'APPROVE',
+              body: 'Automated approval for the disposable A25 conformance fixture.'
+            })

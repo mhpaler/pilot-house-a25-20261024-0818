@@ -1,0 +1,42 @@
+schema_version: ph.project.v1
+project:
+  id: pilot-house-a25-20261024-0818
+  repository:
+    provider: github
+    owner: mhpaler
+    name: pilot-house-a25-20261024-0818
+    canonical_remote: https://github.com/mhpaler/pilot-house-a25-20261024-0818.git
+  integration_ref: refs/heads/main
+execution_graph:
+  backend: bd
+  authority_mode: authoritative
+  storage_mode: embedded
+  version: 1.3.1
+  revision: c1c4b642ac1c
+  sha256: a8f48d771b9e11eccfced4aed72923b59eda746f7a9b425e7ca1af7a51251653
+  graph_id: 82b5afe1-35b1-4d13-b0c0-2a069e73219c
+  issue_types:
+    task: task
+delivery:
+  branch_template: feature/{bead_id}-{slug}
+  require_pull_request: true
+  merge_strategy: squash
+  delete_integrated_branch: false
+  preserve_cancelled_branch: true
+leases:
+  ttl: 30m
+  heartbeat_interval: 10m
+  reclaim_grace: 30m
+  sync_interval: 30s
+  allow_any_replica_reclaim: false
+backup:
+  required: true
+  max_age: 24h
+  restore_verification_max_age: 7d
+  include_audit_archive: true
+governance:
+  required_checks: [check]
+  require_review: true
+  require_human_for: []
+hooks: []
+local_config_ref: /data/projects/pilot-house-a25-state-20261024-0818/local.yaml
